@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Fun animals quiz for kids. Learn and play with a simple multi-step wizard." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='70' font-size='80'>🐾</text></svg>">
+  <title>Animals Quiz — Wizard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="quiz.html" aria-current="page">Quiz</a>
+      <a href="gallery.html">Sticker Book</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1>Animals Quiz</h1>
+    <p class="tagline">Answer 3 quick questions. Use Back and Next. Your results show at the end.</p>
+  </header>
+
+  <main id="content" class="wizard-layout" role="main">
+    <noscript>
+      <div class="notice">This quiz works best with JavaScript enabled. You can still navigate steps using the buttons below.</div>
+    </noscript>
+
+    <form class="wizard" action="#" method="get" novalidate>
+      <section class="step" id="q1" aria-labelledby="q1-title">
+        <h2 id="q1-title">Which animal says “woof”?</h2>
+        <fieldset>
+          <legend class="visually-hidden">Pick the animal that says woof</legend>
+          <label><input type="radio" name="sound" value="cat" /> 🐱 Cat</label>
+          <label><input type="radio" name="sound" value="dog" /> 🐶 Dog</label>
+          <label><input type="radio" name="sound" value="bunny" /> 🐰 Bunny</label>
+        </fieldset>
+        <div class="actions">
+          <a class="btn next" href="#q2" aria-controls="q2" aria-label="Go to question 2">Next</a>
+        </div>
+      </section>
+
+      <section class="step" id="q2" aria-labelledby="q2-title">
+        <h2 id="q2-title">Who loves bamboo?</h2>
+        <fieldset>
+          <legend class="visually-hidden">Pick the animal that loves bamboo</legend>
+          <label><input type="radio" name="food" value="panda" /> 🐼 Panda</label>
+          <label><input type="radio" name="food" value="koala" /> 🐨 Koala</label>
+          <label><input type="radio" name="food" value="cat" /> 🐱 Cat</label>
+        </fieldset>
+        <div class="actions">
+          <a class="btn" href="#q1" aria-controls="q1">Back</a>
+          <a class="btn next" href="#q3" aria-controls="q3" aria-label="Go to question 3">Next</a>
+        </div>
+      </section>
+
+      <section class="step" id="q3" aria-labelledby="q3-title">
+        <h2 id="q3-title">Who lives in a burrow?</h2>
+        <fieldset>
+          <legend class="visually-hidden">Pick the animal that lives in a burrow</legend>
+          <label><input type="radio" name="home" value="bunny" /> 🐰 Bunny</label>
+          <label><input type="radio" name="home" value="dog" /> 🐶 Dog</label>
+          <label><input type="radio" name="home" value="panda" /> 🐼 Panda</label>
+        </fieldset>
+        <div class="actions">
+          <a class="btn" href="#q2" aria-controls="q2">Back</a>
+          <button class="btn primary" type="submit">Finish</button>
+        </div>
+      </section>
+    </form>
+
+    <section class="result" id="result" aria-live="polite">
+      <h2>Results</h2>
+      <p id="result-text">Submit to see which answers you picked.</p>
+      <button class="btn" id="open-modal" type="button">Check your answers</button>
+    </section>
+  </main>
+
+  <div class="modal" id="result-modal" role="dialog" aria-modal="true" aria-labelledby="dialog-title" hidden>
+    <div class="dialog" tabindex="-1">
+      <h2 id="dialog-title">Answer Check</h2>
+      <p id="dialog-text">—</p>
+      <div class="actions">
+        <button class="btn" id="close-dialog">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="card">
+      <h2>How the quiz works</h2>
+      <p>This is a Wizard pattern: each question is one step. You can go Back or Next. When you Finish, your answers appear in a summary and in a modal dialog.</p>
+      <p>The quiz uses simple validation to make sure you pick an answer before moving forward.</p>
+    </div>
+  </section>
+
+  <script defer>
+    (function(){
+      const form = document.querySelector('form.wizard');
+      const resultText = document.getElementById('result-text');
+      const stepIds = ['#q1','#q2','#q3'];
+      const dialog = document.getElementById('result-modal');
+      const dialogPanel = dialog.querySelector('.dialog');
+      const dialogText = document.getElementById('dialog-text');
+      const openModal = document.getElementById('open-modal');
+      const closeDialog = document.getElementById('close-dialog');
+
+      let answers = { sound: null, food: null, home: null };
+      const correct = { sound: 'dog', food: 'panda', home: 'bunny' };
+
+      function ensureDefaultStep(){
+        if(!location.hash || !stepIds.includes(location.hash)){
+          location.hash = '#q1';
+        }
+      }
+      window.addEventListener('hashchange', ()=>{});
+
+      // Basic validation: require an answer before moving next
+      document.querySelectorAll('.next').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const fromId = location.hash || '#q1';
+          const groupName = fromId === '#q1' ? 'sound' : fromId === '#q2' ? 'food' : null;
+          if(groupName){
+            const checked = form.querySelector(`input[name="${groupName}"]:checked`);
+            if(!checked){
+              e.preventDefault();
+              alert('Please pick an answer before going next.');
+            }
+          }
+        });
+      });
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        answers.sound = form.querySelector('input[name="sound"]:checked')?.value || null;
+        answers.food = form.querySelector('input[name="food"]:checked')?.value || null;
+        answers.home = form.querySelector('input[name="home"]:checked')?.value || null;
+        const text = `Your answers: sound=${answers.sound ?? '—'}, food=${answers.food ?? '—'}, home=${answers.home ?? '—'}.`;
+        resultText.textContent = text;
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      function buildCheckText(){
+        const s = answers.sound ? (answers.sound === correct.sound ? 'Correct' : `Wrong (correct: ${correct.sound})`) : 'Not answered';
+        const f = answers.food ? (answers.food === correct.food ? 'Correct' : `Wrong (correct: ${correct.food})`) : 'Not answered';
+        const h = answers.home ? (answers.home === correct.home ? 'Correct' : `Wrong (correct: ${correct.home})`) : 'Not answered';
+        return `Sound: ${s}\nFood: ${f}\nHome: ${h}`;
+      }
+
+      function trapModal(){
+        function getFocusables(){
+          return Array.from(dialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+            .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+        }
+        let i = 0;
+        function onKey(e){
+          if(dialog.hidden) return;
+          if(e.key === 'Tab'){
+            const focusables = getFocusables();
+            if(focusables.length){
+              e.preventDefault();
+              i = e.shiftKey ? (i - 1 + focusables.length) % focusables.length : (i + 1) % focusables.length;
+              focusables[i].focus();
+            }
+          }
+          if(e.key === 'Escape') close();
+        }
+        function open(){
+          dialog.hidden = false;
+          document.body.style.overflow = 'hidden';
+          i = 0;
+          dialogPanel.focus();
+          document.addEventListener('keydown', onKey);
+        }
+        function close(){
+          dialog.hidden = true;
+          document.body.style.overflow = '';
+          document.removeEventListener('keydown', onKey);
+          if(openModal) openModal.focus();
+        }
+        if(openModal){
+          openModal.addEventListener('click', () => {
+            const s = answers.sound ? (answers.sound === correct.sound ? 'Correct' : `Wrong (correct: ${correct.sound})`) : 'Not answered';
+            const f = answers.food ? (answers.food === correct.food ? 'Correct' : `Wrong (correct: ${correct.food})`) : 'Not answered';
+            const h = answers.home ? (answers.home === correct.home ? 'Correct' : `Wrong (correct: ${correct.home})`) : 'Not answered';
+            dialogText.textContent = `Sound: ${s}\nFood: ${f}\nHome: ${h}`;
+            open();
+          });
+        }
+        if(closeDialog){ closeDialog.addEventListener('click', close); }
+      }
+
+      trapModal();
+      ensureDefaultStep();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kids Animals — Master–Detail</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Main">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="gallery.html">Sticker Book</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1>Meet Cute Animals</h1>
+    <p>Tap an animal to see fun facts.</p>
+  </header>
+
+  <main class="layout">
+    <nav class="list" aria-label="Animal list">
+      <a class="item" href="#cat" aria-controls="cat" aria-label="Cat">🐱 Cat</a>
+      <a class="item" href="#dog" aria-controls="dog" aria-label="Dog">🐶 Dog</a>
+      <a class="item" href="#bunny" aria-controls="bunny" aria-label="Bunny">🐰 Bunny</a>
+      <a class="item" href="#panda" aria-controls="panda" aria-label="Panda">🐼 Panda</a>
+      <a class="item" href="#koala" aria-controls="koala" aria-label="Koala">🐨 Koala</a>
+    </nav>
+
+    <section class="detail" aria-live="polite">
+      <article id="cat" class="card" tabindex="-1" aria-labelledby="cat-title">
+        <h2 id="cat-title">🐱 Cat</h2>
+        <p>Cats love naps and can sleep up to 16 hours a day!</p>
+        <ul>
+          <li>Favorite sound: purr</li>
+          <li>Superpower: quiet paws</li>
+        </ul>
+      </article>
+
+      <article id="dog" class="card" tabindex="-1" aria-labelledby="dog-title">
+        <h2 id="dog-title">🐶 Dog</h2>
+        <p>Dogs are great friends and love playing fetch.</p>
+        <ul>
+          <li>Favorite sound: woof</li>
+          <li>Superpower: wagging tail</li>
+        </ul>
+      </article>
+
+      <article id="bunny" class="card" tabindex="-1" aria-labelledby="bunny-title">
+        <h2 id="bunny-title">🐰 Bunny</h2>
+        <p>Bunnies hop with strong legs and nibble crunchy carrots.</p>
+        <ul>
+          <li>Favorite sound: sniff</li>
+          <li>Superpower: fast hops</li>
+        </ul>
+      </article>
+
+      <article id="panda" class="card" tabindex="-1" aria-labelledby="panda-title">
+        <h2 id="panda-title">🐼 Panda</h2>
+        <p>Pandas enjoy munching bamboo and cozy cuddles.</p>
+        <ul>
+          <li>Favorite sound: munch</li>
+          <li>Superpower: bamboo crunch</li>
+        </ul>
+      </article>
+
+      <article id="koala" class="card" tabindex="-1" aria-labelledby="koala-title">
+        <h2 id="koala-title">🐨 Koala</h2>
+        <p>Koalas like eucalyptus leaves and gentle climbs.</p>
+        <ul>
+          <li>Favorite sound: snooze</li>
+          <li>Superpower: comfy hugs</li>
+        </ul>
+      </article>
+
+      <div class="placeholder" id="home" aria-hidden="true">
+        <h2>Pick an animal</h2>
+        <p>Choose one on the left to see fun facts.</p>
+      </div>
+    </section>
+  </main>
+
+  <section class="container">
+    <div class="card">
+      <h2>How this page works</h2>
+      <p>This is a Master–Detail page. Pick an animal on the left to see details on the right without changing pages.</p>
+      <p>Try exploring each animal and then take the Quiz to test what you learned.</p>
+    </div>
+  </section>
+
+</body>
+</html>

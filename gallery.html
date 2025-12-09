@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sticker Book — Kids Animals</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="gallery.html" aria-current="page">Sticker Book</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1>Sticker Book</h1>
+    <p class="tagline">Collect cute animal stickers. Tap Load More to see more.</p>
+  </header>
+
+  <main id="content" class="container">
+    <section class="grid" id="stickers" aria-live="polite"></section>
+    <div class="actions" style="justify-content:center">
+      <button class="btn" id="load-more" type="button">Load More</button>
+    </div>
+  </main>
+
+
+
+  <script defer>
+    (function(){
+      const data = [
+        {emoji:'🐱',name:'Cat'},{emoji:'🐶',name:'Dog'},{emoji:'🐰',name:'Bunny'},{emoji:'🐼',name:'Panda'},{emoji:'🐨',name:'Koala'},
+        {emoji:'🦊',name:'Fox'},{emoji:'🐵',name:'Monkey'},{emoji:'🐯',name:'Tiger'},{emoji:'🦁',name:'Lion'},{emoji:'🐷',name:'Pig'},
+        {emoji:'🐮',name:'Cow'},{emoji:'🐸',name:'Frog'},{emoji:'🐤',name:'Chick'},{emoji:'🦄',name:'Unicorn'},{emoji:'🦒',name:'Giraffe'}
+      ];
+      let index = 0;
+      const batch = 5;
+      const grid = document.getElementById('stickers');
+      const btn = document.getElementById('load-more');
+
+      function addCards(n){
+        for(let i=0;i<n && index < data.length;i++){
+          const item = data[index++];
+          const card = document.createElement('article');
+          card.className = 'card';
+          card.innerHTML = `<h3>${item.emoji} ${item.name}</h3><p>A friendly ${item.name} sticker for your collection.</p>`;
+          grid.appendChild(card);
+        }
+        if(index >= data.length){ btn.disabled = true; btn.textContent = 'All stickers loaded'; }
+      }
+
+      addCards(batch);
+      btn.addEventListener('click', ()=> addCards(batch));
+    })();
+  </script>
+</body>
+</html>
